@@ -24,6 +24,7 @@ namespace PlantHealthDetector
         int hiddenNeurons;
         double learningRate;
         int epochs;
+        bool isTrained;
 
         public Form1()
         {
@@ -34,9 +35,10 @@ namespace PlantHealthDetector
             string datasetPath = Path.Combine(projectRoot, "dataset");
             Console.WriteLine("Looking for dataset at: " + datasetPath);
             DatasetLoader.LoadData(datasetPath, out trainSet, out testSet);
-            hiddenNeurons = 64;
-            learningRate = 0.1;
-            epochs = 1000;
+            hiddenNeurons = 16;
+            learningRate = 0.15;
+            epochs = 100;
+            isTrained = false;
         }
 
         private void healthDetectorToolStripMenuItem_Click(object sender, EventArgs e)
@@ -127,8 +129,9 @@ namespace PlantHealthDetector
                 }
             }
             Console.WriteLine("\nTraining completed. Results appended to 'training_log.csv'");
+            isTrained = true;
         }
-            static double EvaluateAccuracy(NeuralNet net, List<ImageData> testSet)
+        static double EvaluateAccuracy(NeuralNet net, List<ImageData> testSet)
         {
             int correct = 0;
             foreach (var sample in testSet)
@@ -235,7 +238,7 @@ namespace PlantHealthDetector
             //Update the UI text box
             textBox1.Text = predictedLabel;
 
-            //Ask user for manual feedback (HITL)
+            //Ask user for manual feedback
             DialogResult feedback = MessageBox.Show(
                 $"Prediction: {predictedLabel}\nConfidence: {confidence:P1}\n\nIs this prediction correct?",
                 "Manual Validation",
@@ -296,12 +299,35 @@ namespace PlantHealthDetector
 
         private void exportWeightsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (nn == null || !isTrained)
+            {
+                MessageBox.Show("Please train the network before exporting weights.");
+                return;
+            }
             if (nn == null)
             {
                 MessageBox.Show("Please train or prepare the network first.");
                 return;
             }
-            saveFileDialog1.ShowDialog();
+            using (SaveFileDialog sfd = saveFileDialog1)
+            {
+                sfd.Filter = "Text Files (*.txt)|*.txt";
+                sfd.FileName = "trained_plant_model.txt";
+                sfd.Title = "Save Trained Weights";
+
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        nn.saveWeights(sfd.FileName);
+                        MessageBox.Show($"Weights exported successfully to:\n{sfd.FileName}");
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error saving weights: {ex.Message}");
+                    }
+                }
+            }
         }
 
         private void openFileDialog2_FileOk(object sender, CancelEventArgs e)
@@ -328,11 +354,6 @@ namespace PlantHealthDetector
 
         private void saveFileDialog1_FileOk(object sender, CancelEventArgs e)
         {
-            saveFileDialog1.Filter = "Text Files (*.txt)";
-            saveFileDialog1.FileName = "trained_plant_model.txt";
-            saveFileDialog1.Title = "Saved Trained Weights";
-            nn.saveWeights(saveFileDialog1.FileName);
-            MessageBox.Show($"Weights exported successfully to {saveFileDialog1.FileName}");
         }
 
         private void exportCSVFileToolStripMenuItem_Click(object sender, EventArgs e)
@@ -349,7 +370,7 @@ namespace PlantHealthDetector
                 return;
             }
 
-            using (SaveFileDialog sfd = new SaveFileDialog())
+            using (SaveFileDialog sfd = saveFileDialog2)
             {
                 sfd.Filter = "CSV Files|*.csv";
                 sfd.FileName = "Combined_Project_Report.csv";
@@ -361,7 +382,7 @@ namespace PlantHealthDetector
                     {
                         using (StreamWriter sw = new StreamWriter(sfd.FileName))
                         {
-                            // 1. Write Training Log Section
+                            // Write Training Log Section
                             if (hasTraining)
                             {
                                 sw.WriteLine("=== TRAINING LOG ===");
@@ -382,7 +403,7 @@ namespace PlantHealthDetector
                             sw.WriteLine();
                             sw.WriteLine();
 
-                            // 2. Write Manual Test Section
+                            // Write Manual Test Section
                             if (hasManual)
                             {
                                 sw.WriteLine("=== MANUAL TEST LOG (ACTIVE LEARNING) ===");

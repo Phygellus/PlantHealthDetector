@@ -38,11 +38,11 @@
             this.setWeightsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.trainModelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.healthDetectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.manualTestingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
-            this.manualTestingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.saveFileDialog2 = new System.Windows.Forms.SaveFileDialog();
             this.menuStrip1.SuspendLayout();
@@ -74,21 +74,21 @@
             // openImageToolStripMenuItem
             // 
             this.openImageToolStripMenuItem.Name = "openImageToolStripMenuItem";
-            this.openImageToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.openImageToolStripMenuItem.Size = new System.Drawing.Size(192, 26);
             this.openImageToolStripMenuItem.Text = "Open Image";
             this.openImageToolStripMenuItem.Click += new System.EventHandler(this.openImageToolStripMenuItem_Click);
             // 
             // exportCSVFileToolStripMenuItem
             // 
             this.exportCSVFileToolStripMenuItem.Name = "exportCSVFileToolStripMenuItem";
-            this.exportCSVFileToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.exportCSVFileToolStripMenuItem.Size = new System.Drawing.Size(192, 26);
             this.exportCSVFileToolStripMenuItem.Text = "Export CSV File";
             this.exportCSVFileToolStripMenuItem.Click += new System.EventHandler(this.exportCSVFileToolStripMenuItem_Click);
             // 
             // exportWeightsToolStripMenuItem
             // 
             this.exportWeightsToolStripMenuItem.Name = "exportWeightsToolStripMenuItem";
-            this.exportWeightsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.exportWeightsToolStripMenuItem.Size = new System.Drawing.Size(192, 26);
             this.exportWeightsToolStripMenuItem.Text = "Export Weights";
             this.exportWeightsToolStripMenuItem.Click += new System.EventHandler(this.exportWeightsToolStripMenuItem_Click);
             // 
@@ -107,30 +107,37 @@
             // healthDetectorToolStripMenuItem
             // 
             this.healthDetectorToolStripMenuItem.Name = "healthDetectorToolStripMenuItem";
-            this.healthDetectorToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.healthDetectorToolStripMenuItem.Size = new System.Drawing.Size(192, 26);
             this.healthDetectorToolStripMenuItem.Text = "Preparation";
             this.healthDetectorToolStripMenuItem.Click += new System.EventHandler(this.healthDetectorToolStripMenuItem_Click);
             // 
             // setWeightsToolStripMenuItem
             // 
             this.setWeightsToolStripMenuItem.Name = "setWeightsToolStripMenuItem";
-            this.setWeightsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.setWeightsToolStripMenuItem.Size = new System.Drawing.Size(192, 26);
             this.setWeightsToolStripMenuItem.Text = "Set Weights";
             this.setWeightsToolStripMenuItem.Click += new System.EventHandler(this.setWeightsToolStripMenuItem_Click);
             // 
             // trainModelToolStripMenuItem
             // 
             this.trainModelToolStripMenuItem.Name = "trainModelToolStripMenuItem";
-            this.trainModelToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.trainModelToolStripMenuItem.Size = new System.Drawing.Size(192, 26);
             this.trainModelToolStripMenuItem.Text = "Train Model";
             this.trainModelToolStripMenuItem.Click += new System.EventHandler(this.trainModelToolStripMenuItem_Click);
             // 
             // healthDetectionToolStripMenuItem
             // 
             this.healthDetectionToolStripMenuItem.Name = "healthDetectionToolStripMenuItem";
-            this.healthDetectionToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.healthDetectionToolStripMenuItem.Size = new System.Drawing.Size(192, 26);
             this.healthDetectionToolStripMenuItem.Text = "Test Run";
             this.healthDetectionToolStripMenuItem.Click += new System.EventHandler(this.healthDetectionToolStripMenuItem_Click);
+            // 
+            // manualTestingToolStripMenuItem
+            // 
+            this.manualTestingToolStripMenuItem.Name = "manualTestingToolStripMenuItem";
+            this.manualTestingToolStripMenuItem.Size = new System.Drawing.Size(192, 26);
+            this.manualTestingToolStripMenuItem.Text = "Manual Testing";
+            this.manualTestingToolStripMenuItem.Click += new System.EventHandler(this.manualTestingToolStripMenuItem_Click);
             // 
             // pictureBox1
             // 
@@ -157,17 +164,6 @@
             // 
             this.openFileDialog2.FileName = "openFileDialog2";
             this.openFileDialog2.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog2_FileOk);
-            // 
-            // manualTestingToolStripMenuItem
-            // 
-            this.manualTestingToolStripMenuItem.Name = "manualTestingToolStripMenuItem";
-            this.manualTestingToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.manualTestingToolStripMenuItem.Text = "Manual Testing";
-            this.manualTestingToolStripMenuItem.Click += new System.EventHandler(this.manualTestingToolStripMenuItem_Click);
-            // 
-            // saveFileDialog1
-            // 
-            this.saveFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.saveFileDialog1_FileOk);
             // 
             // Form1
             // 
