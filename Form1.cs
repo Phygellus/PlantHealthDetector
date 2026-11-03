@@ -373,7 +373,7 @@ namespace PlantHealthDetector
             using (SaveFileDialog sfd = saveFileDialog2)
             {
                 sfd.Filter = "CSV Files|*.csv";
-                sfd.FileName = "Combined_Project_Report.csv";
+                sfd.FileName = "Combined_Training_Logs.csv";
                 sfd.Title = "Export Combined Logs";
 
                 if (sfd.ShowDialog() == DialogResult.OK)
@@ -406,7 +406,7 @@ namespace PlantHealthDetector
                             // Write Manual Test Section
                             if (hasManual)
                             {
-                                sw.WriteLine("=== MANUAL TEST LOG (ACTIVE LEARNING) ===");
+                                sw.WriteLine("=== MANUAL TEST LOG ===");
                                 string[] manualLines = File.ReadAllLines(manualPath);
                                 foreach (string line in manualLines)
                                 {
@@ -415,7 +415,7 @@ namespace PlantHealthDetector
                             }
                             else
                             {
-                                sw.WriteLine("=== MANUAL TEST LOG (ACTIVE LEARNING) ===");
+                                sw.WriteLine("=== MANUAL TEST LOG ===");
                                 sw.WriteLine("No manual test data recorded.");
                             }
                         }
