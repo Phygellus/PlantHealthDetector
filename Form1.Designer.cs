@@ -30,18 +30,21 @@
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.neuralNetworkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportCSVFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportWeightsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.neuralNetworkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.healthDetectorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.setWeightsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.trainModelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.healthDetectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.exportWeightsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
+            this.manualTestingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.saveFileDialog2 = new System.Windows.Forms.SaveFileDialog();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -68,34 +71,66 @@
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.fileToolStripMenuItem.Text = "File";
             // 
-            // neuralNetworkToolStripMenuItem
-            // 
-            this.neuralNetworkToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.healthDetectorToolStripMenuItem,
-            this.setWeightsToolStripMenuItem,
-            this.trainModelToolStripMenuItem,
-            this.healthDetectionToolStripMenuItem});
-            this.neuralNetworkToolStripMenuItem.Name = "neuralNetworkToolStripMenuItem";
-            this.neuralNetworkToolStripMenuItem.Size = new System.Drawing.Size(123, 24);
-            this.neuralNetworkToolStripMenuItem.Text = "NeuralNetwork";
-            // 
             // openImageToolStripMenuItem
             // 
             this.openImageToolStripMenuItem.Name = "openImageToolStripMenuItem";
             this.openImageToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.openImageToolStripMenuItem.Text = "Open Image";
+            this.openImageToolStripMenuItem.Click += new System.EventHandler(this.openImageToolStripMenuItem_Click);
             // 
             // exportCSVFileToolStripMenuItem
             // 
             this.exportCSVFileToolStripMenuItem.Name = "exportCSVFileToolStripMenuItem";
             this.exportCSVFileToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.exportCSVFileToolStripMenuItem.Text = "Export CSV File";
+            this.exportCSVFileToolStripMenuItem.Click += new System.EventHandler(this.exportCSVFileToolStripMenuItem_Click);
+            // 
+            // exportWeightsToolStripMenuItem
+            // 
+            this.exportWeightsToolStripMenuItem.Name = "exportWeightsToolStripMenuItem";
+            this.exportWeightsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.exportWeightsToolStripMenuItem.Text = "Export Weights";
+            this.exportWeightsToolStripMenuItem.Click += new System.EventHandler(this.exportWeightsToolStripMenuItem_Click);
+            // 
+            // neuralNetworkToolStripMenuItem
+            // 
+            this.neuralNetworkToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.healthDetectorToolStripMenuItem,
+            this.setWeightsToolStripMenuItem,
+            this.trainModelToolStripMenuItem,
+            this.healthDetectionToolStripMenuItem,
+            this.manualTestingToolStripMenuItem});
+            this.neuralNetworkToolStripMenuItem.Name = "neuralNetworkToolStripMenuItem";
+            this.neuralNetworkToolStripMenuItem.Size = new System.Drawing.Size(123, 24);
+            this.neuralNetworkToolStripMenuItem.Text = "NeuralNetwork";
             // 
             // healthDetectorToolStripMenuItem
             // 
             this.healthDetectorToolStripMenuItem.Name = "healthDetectorToolStripMenuItem";
             this.healthDetectorToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.healthDetectorToolStripMenuItem.Text = "Preparation";
+            this.healthDetectorToolStripMenuItem.Click += new System.EventHandler(this.healthDetectorToolStripMenuItem_Click);
+            // 
+            // setWeightsToolStripMenuItem
+            // 
+            this.setWeightsToolStripMenuItem.Name = "setWeightsToolStripMenuItem";
+            this.setWeightsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.setWeightsToolStripMenuItem.Text = "Set Weights";
+            this.setWeightsToolStripMenuItem.Click += new System.EventHandler(this.setWeightsToolStripMenuItem_Click);
+            // 
+            // trainModelToolStripMenuItem
+            // 
+            this.trainModelToolStripMenuItem.Name = "trainModelToolStripMenuItem";
+            this.trainModelToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.trainModelToolStripMenuItem.Text = "Train Model";
+            this.trainModelToolStripMenuItem.Click += new System.EventHandler(this.trainModelToolStripMenuItem_Click);
+            // 
+            // healthDetectionToolStripMenuItem
+            // 
+            this.healthDetectionToolStripMenuItem.Name = "healthDetectionToolStripMenuItem";
+            this.healthDetectionToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.healthDetectionToolStripMenuItem.Text = "Test Run";
+            this.healthDetectionToolStripMenuItem.Click += new System.EventHandler(this.healthDetectionToolStripMenuItem_Click);
             // 
             // pictureBox1
             // 
@@ -113,37 +148,26 @@
             this.textBox1.Size = new System.Drawing.Size(232, 56);
             this.textBox1.TabIndex = 2;
             // 
-            // setWeightsToolStripMenuItem
-            // 
-            this.setWeightsToolStripMenuItem.Name = "setWeightsToolStripMenuItem";
-            this.setWeightsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.setWeightsToolStripMenuItem.Text = "Set Weights";
-            // 
-            // trainModelToolStripMenuItem
-            // 
-            this.trainModelToolStripMenuItem.Name = "trainModelToolStripMenuItem";
-            this.trainModelToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.trainModelToolStripMenuItem.Text = "Train Model";
-            // 
-            // healthDetectionToolStripMenuItem
-            // 
-            this.healthDetectionToolStripMenuItem.Name = "healthDetectionToolStripMenuItem";
-            this.healthDetectionToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.healthDetectionToolStripMenuItem.Text = "Health Detection";
-            // 
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
-            // 
-            // exportWeightsToolStripMenuItem
-            // 
-            this.exportWeightsToolStripMenuItem.Name = "exportWeightsToolStripMenuItem";
-            this.exportWeightsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.exportWeightsToolStripMenuItem.Text = "Export Weights";
+            this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
             // 
             // openFileDialog2
             // 
             this.openFileDialog2.FileName = "openFileDialog2";
+            this.openFileDialog2.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog2_FileOk);
+            // 
+            // manualTestingToolStripMenuItem
+            // 
+            this.manualTestingToolStripMenuItem.Name = "manualTestingToolStripMenuItem";
+            this.manualTestingToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.manualTestingToolStripMenuItem.Text = "Manual Testing";
+            this.manualTestingToolStripMenuItem.Click += new System.EventHandler(this.manualTestingToolStripMenuItem_Click);
+            // 
+            // saveFileDialog1
+            // 
+            this.saveFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.saveFileDialog1_FileOk);
             // 
             // Form1
             // 
@@ -180,6 +204,9 @@
         private System.Windows.Forms.ToolStripMenuItem healthDetectionToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.OpenFileDialog openFileDialog2;
+        private System.Windows.Forms.ToolStripMenuItem manualTestingToolStripMenuItem;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog2;
     }
 }
 

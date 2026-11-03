@@ -1,11 +1,11 @@
 ﻿using System;
-using System.IO;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace PlantHealthDetector
 {
@@ -16,8 +16,8 @@ namespace PlantHealthDetector
     }
     public static class DatasetLoader
     {
-        public const int W = 64, H = 64;
-        public const int size = W * H * 3; // 64x64 RGB images
+        public const int W = 32, H = 32;
+        public const int size = W * H * 3; // 32x32 RGB images
         public static void LoadData(
                     string datasetFolderPath,
                     out List<ImageData> trainSet,
@@ -28,13 +28,18 @@ namespace PlantHealthDetector
 
             string healthyPath = Path.Combine(datasetFolderPath, "healthy");
             string unhealthyPath = Path.Combine(datasetFolderPath, "unhealthy");
+            var healthyList = new List<ImageData>();
+            var unhealthyList = new List<ImageData>();
+
 
             // 1. Load Healthy Images (Label 0.0)
-            LoadFolder(healthyPath, 0.0, allSamples);
+            LoadFolder(healthyPath, 0.0, healthyList);
 
             // 2. Load Unhealthy Images (Label 1.0)
-            LoadFolder(unhealthyPath, 1.0, allSamples);
+            LoadFolder(unhealthyPath, 1.0, unhealthyList);
 
+            allSamples.AddRange(healthyList.Take(250));
+            allSamples.AddRange(unhealthyList.Take(250));
             Console.WriteLine($"Total images loaded: {allSamples.Count}");
 
             // 3. Shuffle the dataset to ensure a random mix
@@ -78,19 +83,31 @@ namespace PlantHealthDetector
 
                     // Flatten and Normalize
                     double[] pixels = new double[size];
+                    var rect = new Rectangle(0, 0, W, H);
+
+                    // Lock the bitmap's bits in memory
+                    System.Drawing.Imaging.BitmapData bmpData = resized.LockBits(rect, 
+                        System.Drawing.Imaging.ImageLockMode.ReadOnly, 
+                        System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+
+                    int bytes = Math.Abs(bmpData.Stride) * resized.Height;
+                    byte[] rgbValues = new byte[bytes];
+
+                    // Copy the RGB values into the array
+                    System.Runtime.InteropServices.Marshal.Copy(bmpData.Scan0, rgbValues, 0, bytes);
+                    resized.UnlockBits(bmpData);
                     int i = 0;
                     for (int y = 0; y < H; y++)
                     {
                         for (int x = 0; x < W; x++)
                         {
-                            Color c = resized.GetPixel(x, y);
+                            int index = y * bmpData.Stride + x * 3;
                             // CRITICAL: Divide by 255.0 to normalize to 0.0 - 1.0
-                            pixels[i++] = c.R / 255.0;
-                            pixels[i++] = c.G / 255.0;
-                            pixels[i++] = c.B / 255.0;
+                            pixels[i++] = rgbValues[index + 2] / 255.0; // R
+                            pixels[i++] = rgbValues[index + 1] / 255.0; // G
+                            pixels[i++] = rgbValues[index + 0] / 255.0; // B                        }
                         }
                     }
-
                     targetList.Add(new ImageData { pixels = pixels, label = label });
                 }
                 catch (Exception ex)
@@ -98,6 +115,37 @@ namespace PlantHealthDetector
                     Console.WriteLine($"Error loading {file}: {ex.Message}");
                 }
             }
+        }
+        public static double[] ProcessSingleImage(string filePath)
+        {
+            var bmp = new Bitmap(filePath);
+            var resized = new Bitmap(W, H);
+            using (var g = Graphics.FromImage(resized))
+            {
+                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                g.DrawImage(bmp, 0, 0, W, H);
+            }
+
+            double[] pixels = new double[size];
+            var rect = new Rectangle(0, 0, W, H);
+            BitmapData bmpData = resized.LockBits(rect, ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);
+            int bytes = Math.Abs(bmpData.Stride) * resized.Height;
+            byte[] rgbValues = new byte[bytes];
+            Marshal.Copy(bmpData.Scan0, rgbValues, 0, bytes);
+            resized.UnlockBits(bmpData);
+
+            int i = 0;
+            for (int y = 0; y < H; y++)
+            {
+                for (int x = 0; x < W; x++)
+                {
+                    int index = y * bmpData.Stride + x * 3;
+                    pixels[i++] = rgbValues[index + 2] / 255.0;
+                    pixels[i++] = rgbValues[index + 1] / 255.0;
+                    pixels[i++] = rgbValues[index + 0] / 255.0;
+                }
+            }
+            return pixels;
         }
     }
 }
